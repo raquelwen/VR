@@ -1,25 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Bala : MonoBehaviour
-{
-
-    public int point = 1;
-    public GameManager gameManager;
-     
-   
+{   
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
-        {   
-            Debug.Log("Kill");
-            Destroy(collision.gameObject);
-            gameManager.SumarPuntos(point);         
-            
+        {
+            Debug.Log("Colision");          
+              
+            collision.gameObject.GetComponent<CogerMoneda>().coger();           
+            Destroy(collision.gameObject); 
         }
     }
-
-
-
 }
+
