@@ -8,16 +8,16 @@ public class GameManager : MonoBehaviour
 {
     public int PuntosTotales { get { return puntosTotales; } }
     public int puntosTotales = 0;
-    public HUD hud;   
-    public int currentPuntos;   
+    public HUD hud;
+    public int currentPuntos;
     public void SumarPuntos(int sumarPuntos)
     {
         puntosTotales += sumarPuntos;
-        Debug.Log(puntosTotales);
+        Debug.Log("puntosTotales: " + puntosTotales);
         if (hud != null)
         {
-            hud.ActualizarPuntos(PuntosTotales);
-            if (puntosTotales == 1)
+            hud.ActualizarPuntos(puntosTotales);
+            if (puntosTotales == 10)
             {
                 SceneManager.LoadScene(1);
             }
@@ -27,6 +27,20 @@ public class GameManager : MonoBehaviour
             Debug.LogError("HUD is not assigned in the GameManager.");
         }
         currentPuntos = puntosTotales;
-    }   
-        
     }
+    public static GameManager instance;
+    void Awake()
+    {
+        
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+    }
+}

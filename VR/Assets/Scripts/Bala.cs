@@ -4,17 +4,45 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Bala : MonoBehaviour
-{   
-    private void OnCollisionEnter(Collision collision)
+
+    public class Bala : MonoBehaviour
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+
+    
+    public GameManager gameManager;    
+
+    void Start()
+    {        
+        if (gameManager == null)
         {
-            Debug.Log("Colision");          
-              
-            collision.gameObject.GetComponent<CogerMoneda>().coger();           
-            Destroy(collision.gameObject); 
+            gameManager = FindObjectOfType<GameManager>();
+        }
+
+        // Check if GameManager was found
+        if (gameManager == null)
+        {
+            Debug.LogError("GameManager is not found in the scene.");
         }
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        int puntosBala = 1;
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+
+            if (gameManager != null)
+            {
+                Debug.Log("Sumando puntos: " + puntosBala);
+                gameManager.SumarPuntos(puntosBala); 
+                Destroy(collision.gameObject);
+            }
+            else
+            {
+                Debug.LogError("GameManager is not assigned.");
+            }
+
+        }
+    }    
 }
 
